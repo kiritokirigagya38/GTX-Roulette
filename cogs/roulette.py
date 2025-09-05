@@ -15,7 +15,7 @@ class Roulette(commands.Cog):
 
     @commands.command(name="roulette")
     async def roulette(self, ctx):
-        """Tire UNE seule map aléatoire"""
+        """Tire UNE seule map aléatoire (accessible à tous)"""
         if not self.maps:
             await ctx.send("⚠️ Aucune map disponible.")
             return
@@ -30,12 +30,15 @@ class Roulette(commands.Cog):
             await ctx.send("⛔ Tu n’as pas la permission d’exclure une map.")
             return
 
-        map_name = map_name.strip()
-        if map_name in self.maps:
-            self.maps.remove(map_name)
-            await ctx.send(f"❌ La map **{map_name}** a été exclue de la roulette.")
+        map_name = map_name.strip().lower()
+        maps_lower = [m.lower() for m in self.maps]
+
+        if map_name in maps_lower:
+            index = maps_lower.index(map_name)
+            removed = self.maps.pop(index)
+            await ctx.send(f"❌ La map **{removed}** a été exclue de la roulette.")
         else:
-            await ctx.send(f"⚠️ La map **{map_name}** n’existe pas ou est déjà exclue.")
+            await ctx.send(f"⚠️ La map **{map_name}** n’existe pas dans la liste.")
 
     @commands.command(name="addmap")
     async def addmap(self, ctx, *, map_name: str):
@@ -45,7 +48,9 @@ class Roulette(commands.Cog):
             return
 
         map_name = map_name.strip()
-        if map_name not in self.maps:
+        maps_lower = [m.lower() for m in self.maps]
+
+        if map_name.lower() not in maps_lower:
             self.maps.append(map_name)
             await ctx.send(f"✅ La map **{map_name}** a été ajoutée.")
         else:
@@ -53,7 +58,7 @@ class Roulette(commands.Cog):
 
     @commands.command(name="history")
     async def history(self, ctx):
-        """Affiche l’historique des tirages"""
+        """Affiche l’historique des tirages (accessible à tous)"""
         if self.history:
             history_str = ", ".join(self.history[-10:])
             await ctx.send(f"🕑 Historique des derniers tirages : {history_str}")
@@ -62,7 +67,7 @@ class Roulette(commands.Cog):
 
     @commands.command(name="listmaps")
     async def listmaps(self, ctx):
-        """Affiche toutes les maps disponibles"""
+        """Affiche toutes les maps disponibles (accessible à tous)"""
         if self.maps:
             maps_str = ", ".join(self.maps)
             await ctx.send(f"📋 Maps disponibles : {maps_str}")
