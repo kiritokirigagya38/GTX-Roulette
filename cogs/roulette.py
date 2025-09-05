@@ -17,8 +17,10 @@ class Roulette(commands.Cog):
             await ctx.send("⚠️ Aucune map disponible.")
             return
 
+        # Tirage unique
         map_choice = random.choice(self.maps)
         self.history.append(map_choice)
+
         await ctx.send(f"🎲 La map tirée est : **{map_choice}**")
 
 async def setup(bot):
