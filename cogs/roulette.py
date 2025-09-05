@@ -5,8 +5,8 @@ import os
 import sys
 from discord.ext import commands
 
-# Remplace par TON ID DISCORD (clic droit sur ton profil > Copier l'identifiant)
-OWNER_ID = 199541824212172801, 512700060329443328
+# Remplace par tes ID Discord (clic droit sur profil > Copier l'identifiant)
+OWNER_IDS = {199541824212172801, 512700060329443328}  
 
 class Roulette(commands.Cog):
     def __init__(self, bot):
@@ -65,8 +65,8 @@ class Roulette(commands.Cog):
 
     @commands.command(name="reboot")
     async def reboot(self, ctx):
-        """Redémarre le bot (réservé au propriétaire)"""
-        if ctx.author.id != OWNER_ID:
+        """Redémarre le bot (réservé aux propriétaires)"""
+        if ctx.author.id not in OWNER_IDS:
             await ctx.send("⛔ Tu n’as pas la permission de redémarrer le bot.")
             return
 
