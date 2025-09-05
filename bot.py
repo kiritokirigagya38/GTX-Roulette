@@ -1,7 +1,7 @@
 import discord
 import json
-import asyncio
 import os
+import asyncio
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -9,11 +9,11 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-# Charger la config
+# Charger config.json
 with open("config.json", "r", encoding="utf-8") as f:
     config = json.load(f)
 
-# Intents (nécessaires pour lire les messages)
+# Intents
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -25,7 +25,7 @@ async def on_ready():
 
 async def main():
     async with bot:
-        # Charger le cog Roulette directement
+        # ⚠️ Charger le cog UNE seule fois
         await bot.load_extension("cogs.roulette")
         await bot.start(TOKEN)
 
