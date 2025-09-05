@@ -27,7 +27,7 @@ OWNER_IDS = {199541824212172801, 512700060329443328}
 async def on_ready():
     print(f"⚜️ Connecté en tant que {bot.user}")
 
-# ✅ Commande reboot stable
+# ✅ Commande reboot hybride
 @bot.command(name="reboot")
 async def reboot(ctx):
     """Redémarre le bot (réservé aux propriétaires)"""
@@ -36,8 +36,15 @@ async def reboot(ctx):
         return
 
     await ctx.send("🔄 Redémarrage en cours...")
-    await bot.close()
-    sys.exit(0)  # Render / Railway relancent automatiquement le processus
+
+    # Si une variable d'env RENDER est détectée -> Render/Railway
+    if os.getenv("RENDER") or os.getenv("RAILWAY_STATIC_URL"):
+        await bot.close()
+        sys.exit(0)  # Laisse l'hébergeur relancer
+    else:
+        # En local ou VPS -> redémarrage immédiat
+        await bot.close()
+        os.execv(sys.executable, [sys.executable] + sys.argv)
 
 async def main():
     async with bot:
