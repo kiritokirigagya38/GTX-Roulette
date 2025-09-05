@@ -1,12 +1,22 @@
 {
   "maps": [
+    "Abyss",
     "Ascent",
     "Bind",
     "Haven",
-    "Split",
+    "Lotus",
+    "Sunset",
+    "Corrode",
     "Icebox",
     "Pearl",
-    "Lotus",
-    "Sunset"
+    "Split",
+    "Breeze",
+    "Fracture",
+    "Range",
+    "District",
+    "Kasbah",
+    "Piazza",
+    "Drift",
+    "Glitch"
   ]
 }
