@@ -24,3 +24,9 @@ pip install -r requirements.txt
 ```bash
 python bot.py
 ```
+
+## 🚀 Déploiement sur Render
+- Type de service : **Background Worker**
+- Start command : `python bot.py`
+- Variables d’environnement :
+  - `DISCORD_TOKEN` = ton token Discord
