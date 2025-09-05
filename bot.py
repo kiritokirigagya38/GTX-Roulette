@@ -13,10 +13,13 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 with open("config.json", "r", encoding="utf-8") as f:
     config = json.load(f)
 
+# --- Intents (obligatoire pour lire les messages) ---
 intents = discord.Intents.default()
+intents.message_content = True  # ⚠️ Indispensable pour les commandes
+
 bot = commands.Bot(command_prefix=config["prefix"], intents=intents)
 
-# Charger les cogs
+# --- Charger les cogs ---
 async def load_cogs():
     await bot.load_extension("cogs.roulette")
 
@@ -24,7 +27,7 @@ async def load_cogs():
 async def on_ready():
     print(f"⚜️ Connecté en tant que {bot.user}")
 
-# Lancement du bot
+# --- Lancement du bot ---
 async def main():
     async with bot:
         await load_cogs()
