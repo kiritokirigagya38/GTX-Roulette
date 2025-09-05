@@ -1,12 +1,10 @@
 import discord
 import random
 import json
-import os
-import sys
 from discord.ext import commands
 
-# Remplace par tes ID Discord (clic droit sur profil > Copier l'identifiant)
-OWNER_IDS = {199541824212172801, 512700060329443328}  
+# IDs des propriétaires autorisés
+OWNER_IDS = {199541824212172801, 512700060329443328}
 
 class Roulette(commands.Cog):
     def __init__(self, bot):
@@ -27,7 +25,11 @@ class Roulette(commands.Cog):
 
     @commands.command(name="excludemap")
     async def excludemap(self, ctx, *, map_name: str):
-        """Exclut une map de la liste"""
+        """Exclut une map de la liste (OWNER uniquement)"""
+        if ctx.author.id not in OWNER_IDS:
+            await ctx.send("⛔ Tu n’as pas la permission d’exclure une map.")
+            return
+
         map_name = map_name.strip()
         if map_name in self.maps:
             self.maps.remove(map_name)
@@ -37,7 +39,11 @@ class Roulette(commands.Cog):
 
     @commands.command(name="addmap")
     async def addmap(self, ctx, *, map_name: str):
-        """Ajoute une map à la liste"""
+        """Ajoute une map à la liste (OWNER uniquement)"""
+        if ctx.author.id not in OWNER_IDS:
+            await ctx.send("⛔ Tu n’as pas la permission d’ajouter une map.")
+            return
+
         map_name = map_name.strip()
         if map_name not in self.maps:
             self.maps.append(map_name)
@@ -62,17 +68,6 @@ class Roulette(commands.Cog):
             await ctx.send(f"📋 Maps disponibles : {maps_str}")
         else:
             await ctx.send("📭 Aucune map n’est actuellement disponible.")
-
-    @commands.command(name="reboot")
-    async def reboot(self, ctx):
-        """Redémarre le bot (réservé aux propriétaires)"""
-        if ctx.author.id not in OWNER_IDS:
-            await ctx.send("⛔ Tu n’as pas la permission de redémarrer le bot.")
-            return
-
-        await ctx.send("🔄 Redémarrage en cours...")
-        await self.bot.close()
-        os.execv(sys.executable, ["python"] + sys.argv)
 
 async def setup(bot):
     await bot.add_cog(Roulette(bot))
