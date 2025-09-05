@@ -6,7 +6,7 @@ import sys
 from discord.ext import commands
 
 # Remplace par TON ID DISCORD (clic droit sur ton profil > Copier l'identifiant)
-OWNER_ID = 199541824212172801  
+OWNER_ID = 199541824212172801, 512700060329443328
 
 class Roulette(commands.Cog):
     def __init__(self, bot):
