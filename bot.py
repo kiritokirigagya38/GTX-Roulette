@@ -1,7 +1,7 @@
 import discord
 import json
-import os
 import asyncio
+import os
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -25,8 +25,13 @@ async def on_ready():
 
 async def main():
     async with bot:
-        # ⚠️ Charger le cog UNE seule fois
-        await bot.load_extension("cogs.roulette")
+        # 🔒 Sécurité anti-doublon
+        if "cogs.roulette" not in bot.extensions:
+            await bot.load_extension("cogs.roulette")
+            print("✅ Cog 'roulette' chargé")
+        else:
+            print("⚠️ Cog 'roulette' déjà chargé, ignoré")
+
         await bot.start(TOKEN)
 
 asyncio.run(main())
