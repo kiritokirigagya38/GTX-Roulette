@@ -6,7 +6,7 @@ import sys
 from discord.ext import commands
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement
+# Charger variables d'environnement
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -27,7 +27,7 @@ OWNER_IDS = {199541824212172801, 512700060329443328}
 async def on_ready():
     print(f"⚜️ Connecté en tant que {bot.user}")
 
-# ✅ Commande reboot gérée directement dans bot.py
+# ✅ Commande reboot stable
 @bot.command(name="reboot")
 async def reboot(ctx):
     """Redémarre le bot (réservé aux propriétaires)"""
@@ -37,10 +37,11 @@ async def reboot(ctx):
 
     await ctx.send("🔄 Redémarrage en cours...")
     await bot.close()
-    sys.exit(0)  # L’hébergeur relancera automatiquement le process
+    sys.exit(0)  # Render / Railway relancent automatiquement le processus
 
 async def main():
     async with bot:
+        # 🔒 Charger une seule fois le cog
         if "cogs.roulette" not in bot.extensions:
             await bot.load_extension("cogs.roulette")
             print("✅ Cog 'roulette' chargé")
