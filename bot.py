@@ -2,12 +2,10 @@ import discord
 import json
 import asyncio
 import os
-import threading
 from discord.ext import commands
 from dotenv import load_dotenv
-from flask import Flask
 
-# Charger les variables d'environnement
+# Charger les variables d'environnement (.env ou Render env)
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -26,21 +24,7 @@ async def load_cogs():
 async def on_ready():
     print(f"⚜️ Connecté en tant que {bot.user}")
 
-# --- Serveur web Flask ---
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    return "✅ Bot Valorant Roulette est en ligne !"
-
-def run_web():
-    port = int(os.environ.get("PORT", 8080))  # Render fournit la variable PORT
-    app.run(host="0.0.0.0", port=port)
-
-# Lancer Flask dans un thread séparé
-threading.Thread(target=run_web).start()
-
-# --- Lancer le bot Discord ---
+# Lancement du bot
 async def main():
     async with bot:
         await load_cogs()
