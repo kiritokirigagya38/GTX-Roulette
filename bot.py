@@ -5,7 +5,7 @@ import os
 from discord.ext import commands
 from dotenv import load_dotenv
 
-# Charger les variables d'environnement
+# Charger variables d'environnement
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -25,7 +25,7 @@ async def on_ready():
 
 async def main():
     async with bot:
-        # 🔒 Sécurité anti-doublon
+        # 🔒 Charger une seule fois le cog
         if "cogs.roulette" not in bot.extensions:
             await bot.load_extension("cogs.roulette")
             print("✅ Cog 'roulette' chargé")
